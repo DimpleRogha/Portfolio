@@ -1,5 +1,5 @@
 import React, {useState, useRef} from 'react';                                                                          //imports
-import { View, Text, StyleSheet, Image, Pressable, ScrollView } from 'react-native';                
+import { View, Text, StyleSheet, Image, Pressable, ScrollView, Linking } from 'react-native';                
 import { LinearGradient } from 'expo-linear-gradient';
 import contact from './assets/contact_us.png';
 import { Audio } from 'expo-av';
@@ -14,6 +14,7 @@ export default function App() {
   const [isHovered2, setIsHovered2] = useState(false);
   const [isHovered3, setIsHovered3] = useState(false);
   const [isHovered4, setIsHovered4] = useState(false);
+  console.log(typeof someSuspiciousVariable)
 
   const playClickSound = async () => {                                                                                  //Click Sound Functoin
     try {
@@ -31,6 +32,17 @@ export default function App() {
     setShowContact(prev => !prev);
   };
 
+  const url='www.linkedin.com/in/dimple-rogha-272075265'
+
+  const openLink = async (url) => {
+  const supported = await Linking.canOpenURL(url);
+  if (supported) {
+    await Linking.openURL(url);
+  } else {
+    console.log("❌ Can't open this URL:", url);
+  }
+};
+
   return (
     <LinearGradient
       colors={['#ff9a9e', '#fad0c4']}
@@ -41,12 +53,13 @@ export default function App() {
         <Pressable onPress={contactMe}                                                                                      //Contact me button
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        style = {{
-          transform: [{ scale: isHovered ? 1.2: 1}],
-          transition: 'transform 0.2s ease-in-out',
-        }}>
+        style = {[
+          styles.pressable,
+          {transform: [{ scale: isHovered ? 1.2: 1}]}
+        ]}>
           <View style={{padding:10}}>
             <Image 
+            resizeMode = 'contain'
             source={contact}
             style={styles.image} />
           </View>
@@ -60,6 +73,7 @@ export default function App() {
         </View>
       )}
 
+
       <View style={styles.body}>                                                                                    {/*Name*/}
         <Text style={styles.heading}>Dimple Rogha</Text>
         <Text style={styles.sub}>Student</Text>
@@ -68,6 +82,7 @@ export default function App() {
       <View style={styles.components}>                                                                              {/*Social Media Links*/}
         <View style={styles.socials}>
           <Pressable 
+          onPress={() => Linking.openURL('www.linkedin.com/in/dimple-rogha-272075265')}
           onMouseEnter={() => setIsHovered1(true)}
           onMouseLeave={() => setIsHovered1(false)}
           style = {{
@@ -136,17 +151,83 @@ export default function App() {
 
         <View style = { styles.project}>                                                                              {/*Project buttons*/}
           <View style={styles.projectbox}>
-
+            <Image
+            source={require('./assets/ce.png')}
+            style={{
+              width:90, 
+              height: 90,
+              borderRadius: 10,
+              margin: 5,
+            }} />
           </View>
           <View style={styles.projectbox}>
-
+            <Image
+            source={require('./assets/todo.png')}
+            style={{
+              width:90, 
+              height: 90,
+              borderRadius: 10,
+              margin: 5,
+            }} />
           </View>
+
+
         </View>
         <View style={styles.des}>                                                                                     {/** Description */}
           <Text style={{
             color:'white', 
-            //fontWeight: 'bold', 
-            fontSize: 18}}>This is the description side.</Text>
+            fontWeight: 'bold', 
+            fontSize: 24}}>Education:</Text>
+          <Text
+          style={{
+            color: 'white',
+            fontSize: 16}}>Diploma in Web Development</Text>
+
+          <Text
+          style={{
+            color: 'white',
+            fontSize: 16,
+           // marginBottom: 20
+          }}>Pursuing BCA from UPES, Dehradun</Text>
+
+          <Text style={{
+            color:'white', 
+            fontWeight: 'bold', 
+            fontSize: 24}}>Hobbies:</Text>
+          <Text
+          style={{
+            color: 'white',
+            fontSize: 16}}>Reading Fiction</Text>
+
+          <Text
+          style={{
+            color: 'white',
+            fontSize: 16
+          }}>Travelling</Text>
+
+          <Text
+          style={{
+            color: 'white',
+            fontSize: 16
+          }}>Content Creation</Text>
+
+          <Text style={{
+            color:'white', 
+            fontWeight: 'bold', 
+            fontSize: 24}}>Current Address:</Text>
+          <Text
+          style={{
+            color: 'white',
+            fontSize: 16}}>Dehradun, Uttrakhand</Text>
+
+          <Text style={{
+            color:'white', 
+            fontWeight: 'bold', 
+            fontSize: 24}}>Permanent Address:</Text>
+          <Text
+          style={{
+            color: 'white',
+            fontSize: 16}}>Alwar, Rajasthan</Text>
         </View>
       </View>
 
@@ -217,7 +298,7 @@ const styles = StyleSheet.create({                                              
   },
   body: {
     flex: 1,
-    paddingTop: '150',
+    paddingTop: 0,
     alignItems: 'center',
   },
   text: {
@@ -228,7 +309,6 @@ const styles = StyleSheet.create({                                              
   image: {
     width: 50,
     height: 50,
-    resizeMode: 'contain'
 
   },
   heading: {
@@ -278,6 +358,12 @@ const styles = StyleSheet.create({                                              
     position: 'absolute',
     top: -150,
     left: -100
+  },
+
+  pressable: {
+  transitionDuration: '0.2s',  // ✅ Web-safe
+  transitionProperty: 'transform',
+  transitionTimingFunction: 'ease-in-out',
   },
 
   socialImages: {
