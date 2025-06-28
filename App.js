@@ -361,7 +361,7 @@ const styles = StyleSheet.create({                                              
   },
 
   pressable: {
-  transitionDuration: '0.2s',  // ✅ Web-safe
+  transitionDuration: '0.2s',  
   transitionProperty: 'transform',
   transitionTimingFunction: 'ease-in-out',
   },
